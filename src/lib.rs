@@ -18,6 +18,9 @@ extern crate hex;
 use std::convert::TryInto;
 use std::io::{BufRead, Seek, Write};
 
+#[cfg(all(target_arch = "wasm32", not(target_os = "emscripten")))]
+use wasm_bindgen::prelude::{JsValue, wasm_bindgen};
+
 // This file was code-generated using an experimental CDDL to rust tool:
 // https://github.com/Emurgo/cddl-codegen
 
