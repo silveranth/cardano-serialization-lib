@@ -2,7 +2,7 @@ use crate::error::JsError;
 use crate::*;
 use std::io::{Seek, SeekFrom};
 
-#[wasm_bindgen]
+
 pub struct FixedTransaction {
     body: TransactionBody,
     body_bytes: Vec<u8>,
@@ -19,7 +19,7 @@ pub struct FixedTransaction {
 to_from_bytes!(FixedTransaction);
 
 
-#[wasm_bindgen]
+
 impl FixedTransaction {
     pub fn new(
         raw_body: &[u8],

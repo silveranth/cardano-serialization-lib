@@ -2,13 +2,13 @@ use crate::tx_builder::script_structs::*;
 use crate::*;
 use linked_hash_map::LinkedHashMap;
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug)]
 pub struct WithdrawalsBuilder {
     withdrawals: LinkedHashMap<RewardAddress, (Coin, Option<ScriptWitnessType>)>,
 }
 
-#[wasm_bindgen]
+
 impl WithdrawalsBuilder {
     pub fn new() -> Self {
         Self {

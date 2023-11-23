@@ -8,14 +8,14 @@ pub(crate) struct TxBuilderInput {
     pub(crate) amount: Value, // we need to keep track of the amount in the inputs for input selection
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug)]
 pub struct InputWithScriptWitness {
     pub(crate) input: TransactionInput,
     pub(crate) witness: ScriptWitnessType
 }
 
-#[wasm_bindgen]
+
 impl InputWithScriptWitness {
     pub fn new_with_native_script_witness(input: &TransactionInput, witness: &NativeScript) -> Self {
         Self {
@@ -37,10 +37,10 @@ impl InputWithScriptWitness {
     }
 }
 
-#[wasm_bindgen]
+
 pub struct InputsWithScriptWitness(Vec<InputWithScriptWitness>);
 
-#[wasm_bindgen]
+
 impl InputsWithScriptWitness {
     pub fn new() -> Self {
         Self(Vec::new())
@@ -67,7 +67,7 @@ pub struct RequiredWitnessSet {
     bootstraps: BTreeSet<Vec<u8>>,
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug)]
 pub struct TxInputsBuilder {
     inputs: BTreeMap<TransactionInput, (TxBuilderInput, Option<ScriptHash>)>,
@@ -78,7 +78,7 @@ pub(crate) fn get_bootstraps(inputs: &TxInputsBuilder) -> BTreeSet<Vec<u8>> {
     inputs.required_witnesses.bootstraps.clone()
 }
 
-#[wasm_bindgen]
+
 impl TxInputsBuilder {
     pub fn new() -> Self {
         Self {

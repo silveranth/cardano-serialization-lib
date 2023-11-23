@@ -32,7 +32,7 @@ pub fn from_bytes<T: Deserialize>(data: &Vec<u8>) -> Result<T, DeserializeError>
 
 
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, JsonSchema,)]
 pub struct TransactionUnspentOutput {
     pub(crate) input: TransactionInput,
@@ -41,7 +41,7 @@ pub struct TransactionUnspentOutput {
 
 impl_to_from!(TransactionUnspentOutput);
 
-#[wasm_bindgen]
+
 impl TransactionUnspentOutput {
     pub fn new(input: &TransactionInput, output: &TransactionOutput) -> TransactionUnspentOutput {
         Self {
@@ -116,13 +116,13 @@ impl Deserialize for TransactionUnspentOutput {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, serde::Serialize, serde::Deserialize, JsonSchema,)]
 pub struct TransactionUnspentOutputs(pub(crate) Vec<TransactionUnspentOutput>);
 
 to_from_json!(TransactionUnspentOutputs);
 
-#[wasm_bindgen]
+
 impl TransactionUnspentOutputs {
     pub fn new() -> Self {
         Self(Vec::new())
@@ -153,7 +153,7 @@ impl<'a> IntoIterator for &'a TransactionUnspentOutputs {
 // Generic u64 wrapper for platforms that don't support u64 or BigInt/etc
 // This is an unsigned type - no negative numbers.
 // Can be converted to/from plain rust
-#[wasm_bindgen]
+
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct BigNum(u64);
 
@@ -165,7 +165,7 @@ impl std::fmt::Display for BigNum {
     }
 }
 
-#[wasm_bindgen]
+
 impl BigNum {
     // Create a BigNum from a standard rust string representation
     pub fn from_str(string: &str) -> Result<BigNum, JsError> {
@@ -365,7 +365,7 @@ pub fn to_bigint(val: u64) -> BigInt {
 // Specifies an amount of ADA in terms of lovelace
 pub type Coin = BigNum;
 
-#[wasm_bindgen]
+
 #[derive(
 Clone,
 Debug,
@@ -383,7 +383,7 @@ pub struct Value {
 
 impl_to_from!(Value);
 
-#[wasm_bindgen]
+
 impl Value {
     pub fn new(coin: &Coin) -> Value {
         Self {
@@ -615,13 +615,13 @@ impl Deserialize for Value {
 }
 
 // CBOR has int = uint / nint
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Int(pub(crate) i128);
 
 impl_to_from!(Int);
 
-#[wasm_bindgen]
+
 impl Int {
     pub fn new(x: &BigNum) -> Self {
         Self(x.0 as i128)
@@ -887,7 +887,7 @@ pub(crate) fn read_bounded_bytes<R: BufRead + Seek>(
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Hash)]
 pub struct BigInt(num_bigint::BigInt);
 
@@ -929,7 +929,7 @@ impl JsonSchema for BigInt {
     }
 }
 
-#[wasm_bindgen]
+
 impl BigInt {
     pub fn is_zero(&self) -> bool {
         self.0.sign() == Sign::NoSign
@@ -1195,7 +1195,7 @@ impl CBORReadLen {
     }
 }
 
-#[wasm_bindgen]
+
 pub fn make_daedalus_bootstrap_witness(
     tx_body_hash: &TransactionHash,
     addr: &ByronAddress,
@@ -1212,7 +1212,7 @@ pub fn make_daedalus_bootstrap_witness(
     BootstrapWitness::new(&vkey, &signature, chain_code, addr.attributes())
 }
 
-#[wasm_bindgen]
+
 pub fn make_icarus_bootstrap_witness(
     tx_body_hash: &TransactionHash,
     addr: &ByronAddress,
@@ -1227,28 +1227,28 @@ pub fn make_icarus_bootstrap_witness(
     BootstrapWitness::new(&vkey, &signature, chain_code, addr.attributes())
 }
 
-#[wasm_bindgen]
+
 pub fn make_vkey_witness(tx_body_hash: &TransactionHash, sk: &PrivateKey) -> Vkeywitness {
     let sig = sk.sign(tx_body_hash.0.as_ref());
     Vkeywitness::new(&Vkey::new(&sk.to_public()), &sig)
 }
 
-#[wasm_bindgen]
+
 pub fn hash_auxiliary_data(auxiliary_data: &AuxiliaryData) -> AuxiliaryDataHash {
     AuxiliaryDataHash::from(blake2b256(&auxiliary_data.to_bytes()))
 }
 
-#[wasm_bindgen]
+
 pub fn hash_transaction(tx_body: &TransactionBody) -> TransactionHash {
     TransactionHash::from(crypto::blake2b256(tx_body.to_bytes().as_ref()))
 }
 
-#[wasm_bindgen]
+
 pub fn hash_plutus_data(plutus_data: &PlutusData) -> DataHash {
     DataHash::from(blake2b256(&plutus_data.to_bytes()))
 }
 
-#[wasm_bindgen]
+
 pub fn hash_script_data(
     redeemers: &Redeemers,
     cost_models: &Costmdls,
@@ -1336,7 +1336,7 @@ pub fn internal_get_deposit(
     Ok(certificate_refund)
 }
 
-#[wasm_bindgen]
+
 pub fn get_implicit_input(
     txbody: &TransactionBody,
     pool_deposit: &BigNum, // // protocol parameter
@@ -1350,7 +1350,7 @@ pub fn get_implicit_input(
     )
 }
 
-#[wasm_bindgen]
+
 pub fn get_deposit(
     txbody: &TransactionBody,
     pool_deposit: &BigNum, // // protocol parameter
@@ -1435,7 +1435,7 @@ impl MinOutputAdaCalculator {
 }
 
 ///returns minimal amount of ada for the output for case when the amount is included to the output
-#[wasm_bindgen]
+
 pub fn min_ada_for_output(
     output: &TransactionOutput,
     data_cost: &DataCost,
@@ -1446,7 +1446,7 @@ pub fn min_ada_for_output(
 /// !!! DEPRECATED !!!
 /// This function uses outdated set of arguments.
 /// Use `min_ada_for_output` instead
-#[wasm_bindgen]
+
 #[deprecated(since = "11.0.0", note = "Use `min_ada_for_output` instead")]
 pub fn min_ada_required(
     assets: &Value,
@@ -1463,7 +1463,7 @@ pub fn min_ada_required(
 }
 
 /// Used to choosed the schema for a script JSON string
-#[wasm_bindgen]
+
 pub enum ScriptSchema {
     Wallet,
     Node,
@@ -1477,7 +1477,7 @@ pub enum ScriptSchema {
 /// * node: https://github.com/input-output-hk/cardano-node/blob/master/doc/reference/simple-scripts.md
 ///
 /// self_xpub is expected to be a Bip32PublicKey as hex-encoded bytes
-#[wasm_bindgen]
+
 pub fn encode_json_str_to_native_script(
     json: &str,
     self_xpub: &str,

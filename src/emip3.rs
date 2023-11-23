@@ -29,7 +29,7 @@ mod password_encryption_parameter {
     pub const ENCRYPTED_START: usize = TAG_END;
 }
 
-#[wasm_bindgen]
+
 pub fn encrypt_with_password(
     password: &str,
     salt: &str,
@@ -83,7 +83,7 @@ pub fn encrypt_with_password(
     Ok(output.encode_hex::<String>())
 }
 
-#[wasm_bindgen]
+
 pub fn decrypt_with_password(password: &str, data: &str) -> Result<String, JsError> {
     use password_encryption_parameter::*;
     let password = hex::decode(password).map_err(|e| JsError::from_str(&e.to_string()))?;

@@ -10,10 +10,10 @@ enum MintWitnessEnum {
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
-#[wasm_bindgen]
+
 pub struct MintWitness(MintWitnessEnum);
 
-#[wasm_bindgen]
+
 impl MintWitness {
     pub fn new_native_script(native_script: &NativeScript) -> MintWitness {
         MintWitness(MintWitnessEnum::NativeScript(native_script.clone()))
@@ -43,12 +43,12 @@ enum ScriptMint {
 }
 
 #[derive(Clone, Debug)]
-#[wasm_bindgen]
+
 pub struct MintBuilder {
     mints: BTreeMap<PolicyID, ScriptMint>
 }
 
-#[wasm_bindgen]
+
 impl MintBuilder {
     pub fn new() -> MintBuilder {
         MintBuilder {

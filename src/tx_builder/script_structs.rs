@@ -22,11 +22,11 @@ impl PlutusScriptSourceEnum {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PlutusScriptSource(pub(crate) PlutusScriptSourceEnum);
 
-#[wasm_bindgen]
+
 impl PlutusScriptSource {
     pub fn new(script: &PlutusScript) -> Self {
         Self(PlutusScriptSourceEnum::Script(script.clone()))
@@ -67,11 +67,11 @@ pub enum DatumSourceEnum {
     RefInput(TransactionInput),
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct DatumSource(DatumSourceEnum);
 
-#[wasm_bindgen]
+
 impl DatumSource {
     pub fn new(datum: &PlutusData) -> Self {
         Self(DatumSourceEnum::Datum(datum.clone()))
@@ -104,11 +104,11 @@ impl NativeScriptSourceEnum {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct NativeScriptSource(pub(crate) NativeScriptSourceEnum);
 
-#[wasm_bindgen]
+
 impl NativeScriptSource {
     pub fn new(script: &NativeScript) -> Self {
         Self(NativeScriptSourceEnum::NativeScript(script.clone()))
@@ -127,7 +127,7 @@ impl NativeScriptSource {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PlutusWitness {
     pub(crate) script: PlutusScriptSourceEnum,
@@ -135,7 +135,7 @@ pub struct PlutusWitness {
     pub(crate) redeemer: Redeemer,
 }
 
-#[wasm_bindgen]
+
 impl PlutusWitness {
     pub fn new(script: &PlutusScript, datum: &PlutusData, redeemer: &Redeemer) -> Self {
         Self {
@@ -213,11 +213,11 @@ impl PlutusWitness {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct PlutusWitnesses(pub(crate) Vec<PlutusWitness>);
 
-#[wasm_bindgen]
+
 impl PlutusWitnesses {
     pub fn new() -> Self {
         Self(Vec::new())

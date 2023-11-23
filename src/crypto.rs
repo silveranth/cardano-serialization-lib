@@ -29,10 +29,10 @@ pub(crate) fn blake2b256(data: &[u8]) -> [u8; 32] {
 // All key structs were taken from js-chain-libs:
 // https://github.com/Emurgo/js-chain-libs
 
-#[wasm_bindgen]
+
 pub struct Bip32PrivateKey(crypto::SecretKey<crypto::Ed25519Bip32>);
 
-#[wasm_bindgen]
+
 impl Bip32PrivateKey {
     /// derive this private key with the given index.
     ///
@@ -144,10 +144,10 @@ impl Bip32PrivateKey {
     }
 }
 
-#[wasm_bindgen]
+
 pub struct Bip32PublicKey(crypto::PublicKey<crypto::Ed25519Bip32>);
 
-#[wasm_bindgen]
+
 impl Bip32PublicKey {
     /// derive this public key with the given index.
     ///
@@ -221,7 +221,7 @@ impl Bip32PublicKey {
     }
 }
 
-#[wasm_bindgen]
+
 pub struct PrivateKey(key::EitherEd25519SecretKey);
 
 impl From<key::EitherEd25519SecretKey> for PrivateKey {
@@ -230,7 +230,7 @@ impl From<key::EitherEd25519SecretKey> for PrivateKey {
     }
 }
 
-#[wasm_bindgen]
+
 impl PrivateKey {
     pub fn to_public(&self) -> PublicKey {
         self.0.to_public().into()
@@ -325,7 +325,7 @@ impl PrivateKey {
 }
 
 /// ED25519 key used as public key
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct PublicKey(crypto::PublicKey<crypto::Ed25519>);
 
@@ -335,7 +335,7 @@ impl From<crypto::PublicKey<crypto::Ed25519>> for PublicKey {
     }
 }
 
-#[wasm_bindgen]
+
 impl PublicKey {
     /// Get public key from its bech32 representation
     /// Example:
@@ -418,13 +418,13 @@ impl JsonSchema for PublicKey {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq, serde::Serialize, serde::Deserialize, JsonSchema)]
 pub struct Vkey(PublicKey);
 
 impl_to_from!(Vkey);
 
-#[wasm_bindgen]
+
 impl Vkey {
     pub fn new(pk: &PublicKey) -> Self {
         Self(pk.clone())
@@ -452,11 +452,11 @@ impl Deserialize for Vkey {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone)]
 pub struct Vkeys(Vec<Vkey>);
 
-#[wasm_bindgen]
+
 impl Vkeys {
     pub fn new() -> Self {
         Self(Vec::new())
@@ -510,7 +510,7 @@ impl Deserialize for Vkeys {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq, serde::Serialize, serde::Deserialize, JsonSchema)]
 pub struct Vkeywitness {
     vkey: Vkey,
@@ -519,7 +519,7 @@ pub struct Vkeywitness {
 
 impl_to_from!(Vkeywitness);
 
-#[wasm_bindgen]
+
 impl Vkeywitness {
     pub fn new(vkey: &Vkey, signature: &Ed25519Signature) -> Self {
         Self {
@@ -583,13 +583,13 @@ impl Deserialize for Vkeywitness {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq, serde::Serialize, serde::Deserialize, JsonSchema)]
 pub struct Vkeywitnesses(pub(crate) Vec<Vkeywitness>);
 
 impl_to_from!(Vkeywitnesses);
 
-#[wasm_bindgen]
+
 impl Vkeywitnesses {
     pub fn new() -> Self {
         Self(Vec::new())
@@ -643,7 +643,7 @@ impl Deserialize for Vkeywitnesses {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq, serde::Serialize, serde::Deserialize, JsonSchema)]
 pub struct BootstrapWitness {
     vkey: Vkey,
@@ -654,7 +654,7 @@ pub struct BootstrapWitness {
 
 impl_to_from!(BootstrapWitness);
 
-#[wasm_bindgen]
+
 impl BootstrapWitness {
     pub fn vkey(&self) -> Vkey {
         self.vkey.clone()
@@ -750,11 +750,11 @@ impl DeserializeEmbeddedGroup for BootstrapWitness {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, PartialEq, serde::Serialize, serde::Deserialize, JsonSchema)]
 pub struct BootstrapWitnesses(Vec<BootstrapWitness>);
 
-#[wasm_bindgen]
+
 impl BootstrapWitnesses {
     pub fn new() -> Self {
         Self(Vec::new())
@@ -808,12 +808,12 @@ impl Deserialize for BootstrapWitnesses {
     }
 }
 
-#[wasm_bindgen]
+
 pub struct PublicKeys(Vec<PublicKey>);
 
-#[wasm_bindgen]
+
 impl PublicKeys {
-    #[wasm_bindgen(constructor)]
+
     pub fn new() -> PublicKeys {
         PublicKeys(vec![])
     }
@@ -833,11 +833,11 @@ impl PublicKeys {
 
 macro_rules! impl_signature {
     ($name:ident, $signee_type:ty, $verifier_type:ty) => {
-        #[wasm_bindgen]
+
         #[derive(Clone, Debug, Eq, PartialEq)]
         pub struct $name(crypto::Signature<$signee_type, $verifier_type>);
 
-        #[wasm_bindgen]
+
         impl $name {
             pub fn to_bytes(&self) -> Vec<u8> {
                 self.0.as_ref().to_vec()
@@ -930,7 +930,7 @@ macro_rules! impl_signature {
 impl_signature!(Ed25519Signature, Vec<u8>, crypto::Ed25519);
 macro_rules! impl_hash_type {
     ($name:ident, $byte_count:expr) => {
-        #[wasm_bindgen]
+
         #[derive(Debug, Clone, Eq, Hash, Ord, PartialEq, PartialOrd)]
         pub struct $name(pub(crate) [u8; $byte_count]);
 
@@ -954,7 +954,7 @@ macro_rules! impl_hash_type {
             }
         });
 
-        #[wasm_bindgen]
+
         impl $name {
             // hash types are the only types in this library to not give the entire CBOR structure.
             // There is no CBOR binary tag here just the raw hash bytes.
@@ -1071,10 +1071,10 @@ macro_rules! impl_hash_type {
     };
 }
 
-#[wasm_bindgen]
+
 pub struct LegacyDaedalusPrivateKey(pub(crate) crypto::SecretKey<crypto::LegacyDaedalus>);
 
-#[wasm_bindgen]
+
 impl LegacyDaedalusPrivateKey {
     pub fn from_bytes(bytes: &[u8]) -> Result<LegacyDaedalusPrivateKey, JsError> {
         crypto::SecretKey::<crypto::LegacyDaedalus>::from_binary(bytes)
@@ -1112,11 +1112,11 @@ impl_hash_type!(KESVKey, 32);
 // TODO: when >32 size trait implementations are out of nightly and into stable
 // remove the following manual struct definition and use the above macro again if we
 // don't have proper crypto implementations for it.
-#[wasm_bindgen]
+
 #[derive(Debug, Clone, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct KESSignature(pub(crate) Vec<u8>);
 
-#[wasm_bindgen]
+
 impl KESSignature {
     pub fn to_bytes(&self) -> Vec<u8> {
         self.0.clone()
@@ -1214,7 +1214,7 @@ impl JsonSchema for KESSignature {
 }
 
 // Evolving nonce type (used for Update's crypto)
-#[wasm_bindgen]
+
 #[derive(
     Clone, Debug, Eq, Ord, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize, JsonSchema,
 )]
@@ -1229,7 +1229,7 @@ impl Nonce {
     pub const HASH_LEN: usize = 32;
 }
 
-#[wasm_bindgen]
+
 impl Nonce {
     pub fn new_identity() -> Nonce {
         Self { hash: None }
@@ -1317,7 +1317,7 @@ impl Deserialize for Nonce {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(
     Clone, Debug, Eq, Ord, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize, JsonSchema,
 )]
@@ -1332,7 +1332,7 @@ impl VRFCert {
 
 impl_to_from!(VRFCert);
 
-#[wasm_bindgen]
+
 impl VRFCert {
     pub fn output(&self) -> Vec<u8> {
         self.output.clone()

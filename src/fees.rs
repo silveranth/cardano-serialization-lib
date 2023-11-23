@@ -1,14 +1,14 @@
 use super::*;
 use utils::*;
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub struct LinearFee {
     constant: Coin,
     coefficient: Coin,
 }
 
-#[wasm_bindgen]
+
 impl LinearFee {
     pub fn constant(&self) -> Coin {
         self.constant
@@ -26,7 +26,7 @@ impl LinearFee {
     }
 }
 
-#[wasm_bindgen]
+
 pub fn min_fee(tx: &Transaction, linear_fee: &LinearFee) -> Result<Coin, JsError> {
     min_fee_for_size(tx.to_bytes().len(), linear_fee)
 }
@@ -37,7 +37,7 @@ pub fn min_fee_for_size(size: usize, linear_fee: &LinearFee) -> Result<Coin, JsE
         .checked_add(&linear_fee.constant())
 }
 
-#[wasm_bindgen]
+
 pub fn calculate_ex_units_ceil_cost(
     ex_units: &ExUnits,
     ex_unit_prices: &ExUnitPrices,
@@ -78,7 +78,7 @@ pub fn calculate_ex_units_ceil_cost(
     }
 }
 
-#[wasm_bindgen]
+
 pub fn min_script_fee(tx: &Transaction, ex_unit_prices: &ExUnitPrices) -> Result<Coin, JsError> {
     if let Some(redeemers) = &tx.witness_set.redeemers {
         let total_ex_units: ExUnits = redeemers.total_ex_units()?;

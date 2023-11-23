@@ -1,13 +1,13 @@
 use crate::tx_builder::script_structs::*;
 use crate::*;
 
-#[wasm_bindgen]
+
 #[derive(Clone, Debug)]
 pub struct CertificatesBuilder {
     certs: Vec<(Certificate, Option<ScriptWitnessType>)>,
 }
 
-#[wasm_bindgen]
+
 impl CertificatesBuilder {
     pub fn new() -> Self {
         Self { certs: Vec::new() }

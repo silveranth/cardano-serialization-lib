@@ -2,10 +2,10 @@ use batch_tools::proposals::{TxProposal};
 use batch_tools::asset_categorizer::{AssetCategorizer};
 use super::*;
 
-#[wasm_bindgen]
+
 pub struct TransactionBatchList(Vec<TransactionBatch>);
 
-#[wasm_bindgen]
+
 impl TransactionBatchList {
     pub fn len(&self) -> usize {
         self.0.len()
@@ -25,13 +25,13 @@ impl<'a> IntoIterator for &'a TransactionBatchList {
     }
 }
 
-#[wasm_bindgen]
+
 #[derive(Clone)]
 pub struct TransactionBatch {
     transactions: Vec<Transaction>,
 }
 
-#[wasm_bindgen]
+
 impl TransactionBatch {
     pub fn len(&self) -> usize {
         self.transactions.len()
@@ -102,7 +102,7 @@ impl TxBatchBuilder {
     }
 }
 
-#[wasm_bindgen]
+
 pub fn create_send_all(address: &Address, utxos: &TransactionUnspentOutputs, config: &TransactionBuilderConfig)
     -> Result<TransactionBatchList, JsError> {
     let mut tx_batch_builder = TxBatchBuilder::new(utxos, address, config)?;
